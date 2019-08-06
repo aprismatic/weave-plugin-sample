@@ -17,13 +17,14 @@ namespace WeaveCustomPlugin
             Console.WriteLine("Custom plugin created.");
         }
 
-        public void LoadConfig(IConfiguration configuration)
+        public bool LoadConfig(IConfiguration configuration)
         {
             connString = configuration["CUSTOM_CONNSTRING"];
             Console.WriteLine($"Custom plugin loaded with connection string '{connString}'.");
+            return true;
         }
 
-        public void DatasetReady(Dataset dataset)
+        public bool DatasetReady(Dataset dataset)
         {
             using (var conn = new SqlConnection(connString))
             {
@@ -74,9 +75,10 @@ namespace WeaveCustomPlugin
                     Console.WriteLine(ex.Message);
                 }
             }
+            return true;
         }
 
-        public void UpdateDatasets(byte[] updateKey, byte[] publicKey)
+        public bool UpdateDatasets(byte[] updateKey, byte[] publicKey)
         {
             // Select all datasets
             // Apply the following formula to tokens to update: newToken = (oldToken^updateKey) mod publicKey
@@ -85,6 +87,7 @@ namespace WeaveCustomPlugin
             // Or, if using Prisma/DB databases, you can use included UDF:
             // UPDATE table SET column = BigIntModPow(column, ByteArrayToString(updateKey), ByteArrayToString(publicKey));
             Console.WriteLine($"Update with '{Convert.ToBase64String(updateKey)}' update key and '{Convert.ToBase64String(publicKey)}' public key.");
+            return true;
         }
 
         public static string ByteArrayToString(byte[] ba)

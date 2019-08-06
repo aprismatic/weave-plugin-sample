@@ -8,7 +8,7 @@ This repository contains a sample plugin for [WEAVE](https://www.weave.aprismati
 3. Start/use WEAVE network as per normal.
 
 ## Important Notes
-* `UpdateDatasets(byte[] updateKey, byte[] publicKey)` MUST be synchronous, as that will let WEAVE know if the update is completed.
-* The package reference to `Weave.Commons` in the `.csproj` MUST include the `PrivateAssets="All"` property.
-* Plugin library's filename MUST end with `*Plugin.dll`, as WEAVE searches for libraries that matches that filename.
-* Plugin MUST be stored in the `/app/Plugins` folder in the docker image.
+* `UpdateDatasets(byte[] updateKey, byte[] publicKey)` must be synchronous, as that will let WEAVE know if the update is completed.
+* The package reference to `Weave.Commons` in the `.csproj` must include the `PrivateAssets="All"` property.
+* The plugin project should be published, as that will include all dependency libraries.
+* Plugin's path needs to be specified in the `WEAVE_PLUGIN` environment variable. This can be done in the `Dockerfile` as shown in this sample project, or when running the container.
